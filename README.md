@@ -25,16 +25,19 @@ All documentation is organized in the [`docs/`](docs/) folder:
 
 - [**Keywords Reference**](docs/keywords-reference.md) - Complete reference for all OOP keywords (class, new, this, static, extends, super, etc.)
 
-### Exercises (6 Challenges)
+### Exercises (45 Challenges)
 
-Progressive exercises that build on each concept:
+Progressive exercises organized by lesson (4-5 exercises per lesson):
 
-- [Exercise 1: Basic Classes](exercises.md#exercise-1-basic-classes)
-- [Exercise 2: Access Modifiers](exercises.md#exercise-2-access-modifiers)
-- [Exercise 3: Getters and Setters](exercises.md#exercise-3-getters-and-setters)
-- [Exercise 4: Inheritance](exercises.md#exercise-4-inheritance)
-- [Exercise 5: Abstract Classes](exercises.md#exercise-5-abstract-classes)
-- [Exercise 6: Interfaces and Polymorphism](exercises.md#exercise-6-interfaces-and-polymorphism)
+- [Lesson 01: Classes and Objects](exercises/lesson-01/) - 5 exercises (Easy → Hard)
+- [Lesson 02: Properties and Constructors](exercises/lesson-02/) - 5 exercises (Easy → Hard)
+- [Lesson 03: Methods and This](exercises/lesson-03/) - 5 exercises (Easy → Hard)
+- [Lesson 04: Static Members](exercises/lesson-04/) - 5 exercises (Easy → Hard)
+- [Lesson 05: Access Modifiers and Encapsulation](exercises/lesson-05/) - 5 exercises (Easy → Hard)
+- [Lesson 06: Getters and Setters](exercises/lesson-06/) - 5 exercises (Easy → Hard)
+- [Lesson 07: Inheritance](exercises/lesson-07/) - 5 exercises (Easy → Hard)
+- [Lesson 08: Abstract Classes](exercises/lesson-08/) - 5 exercises (Easy → Hard)
+- [Lesson 09: Interfaces and Polymorphism](exercises/lesson-09/) - 5 exercises (Easy → Hard)
 
 ## 🚀 Getting Started
 
@@ -69,10 +72,12 @@ npm install
    - Take your time to understand each concept
    - Use the [Keywords Reference](docs/keywords-reference.md) for quick lookups
 
-2. **Complete the exercises** from [`exercises.md`](exercises.md):
-   - Create `.ts` files in the `src/` folder for each exercise (e.g., `src/exercise1.ts`, `src/exercise2.ts`)
-   - Complete one exercise at a time
-   - Run your solutions with: `npx ts-node src/exercise1.ts` (exercise1 used as example here)
+2. **Complete the exercises**:
+   - Each lesson has its own folder in `exercises/` (e.g., `exercises/lesson-01/`)
+   - Each folder contains 4-5 exercises with progressive difficulty (Easy → Medium → Hard)
+   - Read the `README.md` in each lesson folder for exercise descriptions
+   - Complete exercises in order within each lesson
+   - Run your solutions with: `npx ts-node exercises/lesson-<number>/<file-name>.ts`
    - Commit your solutions to your forked repository to track your progress
 
 3. **Practice and experiment**:
@@ -82,24 +87,39 @@ npm install
 
 ### Working with Exercises
 
-**Creating exercise files:**
+**Finding exercises:**
 
-Create `.ts` files in the `src/` folder (either via CLI or your IDE):
+Each lesson has its own directory with 4-5 exercises:
 
-```bash
-# Via command line
-touch src/exercise1.ts
-
-# Or just create the file manually in your code editor
 ```
+exercises/
+├── lesson-01/          # Classes and Objects
+│   ├── README.md       # Exercise descriptions and requirements
+│   ├── 01-simple-class-easy.ts
+│   ├── 02-class-with-methods-easy.ts
+│   ├── 03-multiple-objects-medium.ts
+│   ├── 04-object-interactions-medium.ts
+│   └── 05-library-system-hard.ts
+├── lesson-02/          # Properties and Constructors
+├── lesson-03/          # Methods and This
+└── ... (lesson-04 through lesson-09)
+```
+
+**Completing exercises:**
+
+1. Navigate to the lesson folder (e.g., `exercises/lesson-01/`)
+2. Read the `README.md` for exercise requirements
+3. Edit the exercise TypeScript files (they start as empty templates)
+4. Run your solution: `npx ts-node exercises/lesson-01/01-simple-class-easy.ts`
+5. Test thoroughly and move to the next exercise
 
 **Running exercise files:**
 
 ```bash
-# Run any exercise file directly with ts-node
-npx ts-node src/exercise1.ts
-npx ts-node src/exercise2.ts
-# ... and so on
+# Run exercises from any lesson
+npx ts-node exercises/lesson-01/01-simple-class-easy.ts
+npx ts-node exercises/lesson-02/03-parameter-properties-medium.ts
+npx ts-node exercises/lesson-09/05-complete-application-hard.ts
 ```
 
 **Saving your work:**
