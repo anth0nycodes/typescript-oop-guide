@@ -152,32 +152,29 @@ Advanced Concepts (Code Reuse and Abstraction)
 
 ## 🤝 Contributing
 
-Contributions are welcome! Here's how you can help improve this guide:
+Contributions are welcome! We're looking for:
 
-### Areas for Improvement
+- Additional exercises with clear requirements and examples
+- Improvements to existing notes (clarity, examples, corrections)
+- Advanced topics (generics, decorators, mixins, design patterns)
+- Code examples demonstrating real-world use cases
+- Bug fixes or typo corrections
 
-- [ ] Create additional exercises
-- [ ] Improve on existing topics / add more advanced OOP topics
-- [ ] Include unit tests for exercises
-
-### How to Contribute
+### Quick Start for Contributors
 
 1. Fork this repository
-2. Create a new branch (`git checkout -b your-name/feature`)
-3. Make your changes
-4. Test your changes thoroughly
-5. Commit your changes (`git commit -m 'Add some improvement'`)
-6. Push to the branch (`git push origin feature/improvement`)
+2. Clone your fork and set up the upstream remote
+3. Create a new branch (`git checkout -b your-name/feature-description`)
+4. Make your changes
+5. Test thoroughly
+6. Commit and push to your fork
 7. Open a Pull Request
 
-### Contribution Guidelines
+**For detailed contribution instructions**, including how to set up your development environment and guidelines for different types of contributions, see [CONTRIBUTING.md](CONTRIBUTING.md).
 
-- **Notes**: Ensure explanations are clear, concise, and beginner-friendly
-- **Code Examples**: Follow TypeScript best practices and include comments
-- **Exercises**: Provide clear requirements and expected output
-- **Formatting**: Use consistent markdown formatting
-- **Testing**: Verify all code examples work with the latest TypeScript version
-- **Documentation Location**: All notes should be in the `docs/` folder
+### Important Note for Learners
+
+If you're completing exercises, just commit your solutions to your fork - **no PR needed**! Your exercise solutions are personal learning progress.
 
 ## 📝 Exercise Solutions
 
