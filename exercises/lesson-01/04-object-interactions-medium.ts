@@ -128,11 +128,7 @@ console.log(course1.getEnrollmentCount()); // 1
 console.log(course1.isFull()); // false
 console.log(student1.listCourses()); // ["JavaScript Basics"]
 
-// Test Student drop method
-student2.drop(course2);
+// Test removing student updates both course and student
+course2.removeStudent(student2);
 console.log(student2.listCourses()); // ["TypeScript 101"]
 console.log(course2.getEnrollmentCount()); // 1 (only student1 now)
-
-// Test edge case: dropping a course not enrolled in
-student3.drop(course1);
-console.log(student3.listCourses()); // [] (unchanged, wasn't enrolled)
