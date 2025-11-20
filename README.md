@@ -173,42 +173,23 @@ git push origin main
 - `git merge upstream/main` - Combines those changes with your work (your exercise solutions stay intact!)
 - `git push origin main` - Updates your fork on GitHub
 
-**Tip:** If you've been working on exercises in your main branch, commit them first before running these commands!
+**Tip:** Always commit your work before updating to avoid losing your progress!
 
-#### Best Practice Workflow
+#### Recommended Workflow for Learners
 
-To avoid conflicts when updating:
+Work directly on your **main branch** to keep things simple:
 
-1. **Work on a separate branch** for your exercises:
-
-   ```bash
-   git checkout -b my-progress
-   ```
-
-2. **Commit your work regularly**:
+1. **Complete exercises and commit regularly**:
 
    ```bash
    git add .
    git commit -m "Complete lesson 3 exercises"
-   git push origin my-progress
-   ```
-
-3. **When updates are available**, switch to main and update:
-
-   ```bash
-   git checkout main
-   git fetch upstream
-   git merge upstream/main
    git push origin main
    ```
 
-4. **Merge updates into your progress branch**:
-   ```bash
-   git checkout my-progress
-   git merge main
-   ```
+2. **When you need updates**, follow the steps in "How to Get New Updates" above
 
-This keeps your exercise solutions separate and makes updating much easier!
+**Why work on main?** Working directly on main keeps your workflow simple and prevents GitHub from showing the "Compare & pull request" button that appears when you push feature branches. This helps avoid confusion since learners should NOT create pull requests for their exercise solutions.
 
 ## 📋 Learning Path
 

@@ -12,13 +12,15 @@ Thanks for your interest in contributing! This guide is meant to help developers
 
 1. Fork this repository
 2. Clone your fork and set up the upstream remote (see README.md)
-3. Complete exercises and commit to your fork
-4. **Regularly check for updates** using `git fetch upstream` and `git merge upstream/main`
+3. **Work directly on your main branch** - complete exercises and commit regularly
+4. **Get updates weekly** using `git fetch upstream` and `git merge upstream/main`
 5. Keep learning at your own pace!
 
 **Why no PRs?** Pull Requests are only for contributing improvements to the learning materials themselves (new exercises, documentation fixes, etc.), NOT for submitting your personal exercise solutions.
 
-See the [Keeping Your Fork Updated](README.md#-keeping-your-fork-updated) section in README.md for detailed instructions on how to stay up-to-date.
+**Why work on main?** Working directly on your main branch keeps things simple and prevents GitHub from showing the "Compare & pull request" button that appears when you push feature branches.
+
+See the [Keeping Your Fork Updated](README.md#-keeping-your-fork-updated) section in README.md for detailed step-by-step instructions.
 
 ---
 
