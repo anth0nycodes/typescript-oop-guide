@@ -9,6 +9,7 @@ Thanks for your interest in contributing! This guide is meant to help developers
 **DO NOT create Pull Requests!** Your exercise solutions are for your own learning.
 
 **What you should do:**
+
 1. Fork this repository
 2. Clone your fork and set up the upstream remote (see README.md)
 3. Complete exercises and commit to your fork
@@ -35,7 +36,7 @@ This section is for you! Continue reading below for how to contribute new exerci
    ```
 3. **Set up the upstream remote** to keep your fork synced:
    ```bash
-   git remote add upstream https://github.com/ORIGINAL-OWNER/typescript-oop-guide.git
+   git remote add upstream https://github.com/ah-materials/typescript-oop-guide.git
    git remote -v  # Verify the remotes are set up correctly
    ```
 4. **Install dependencies**:
@@ -69,17 +70,20 @@ This section is for you! Continue reading below for how to contribute new exerci
 ## Guidelines
 
 ### For Notes
+
 - Keep explanations beginner-friendly
 - Use clear, commented code examples
 - Follow the existing format and structure
 - Test all code examples to ensure they work
 
 ### For Exercises
+
 - Provide clear requirements
 - Include example usage
 - Ensure exercises are appropriately challenging for the topic level
 
 ### Code Style
+
 - Use TypeScript best practices
 - Follow naming conventions outlined in the notes
 - Include type annotations
@@ -88,6 +92,7 @@ This section is for you! Continue reading below for how to contribute new exerci
 ## Questions or Issues?
 
 Open an issue in the repository with:
+
 - Clear description of the problem or suggestion
 - Code examples (if applicable)
 - Expected vs actual behavior (for bugs)

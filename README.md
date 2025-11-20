@@ -59,7 +59,7 @@ cd typescript-oop-guide
 3. **Set up the upstream remote** (this is how you'll get updates):
 
 ```bash
-git remote add upstream https://github.com/hoangcto/typescript-oop-guide.git
+git remote add upstream https://github.com/ah-materials/typescript-oop-guide.git
 git remote -v  # Verify it's set up correctly
 ```
 
@@ -168,6 +168,7 @@ git push origin main
 ```
 
 **What this does:**
+
 - `git fetch upstream` - Downloads the latest changes from the original repository
 - `git merge upstream/main` - Combines those changes with your work (your exercise solutions stay intact!)
 - `git push origin main` - Updates your fork on GitHub
@@ -179,11 +180,13 @@ git push origin main
 To avoid conflicts when updating:
 
 1. **Work on a separate branch** for your exercises:
+
    ```bash
    git checkout -b my-progress
    ```
 
 2. **Commit your work regularly**:
+
    ```bash
    git add .
    git commit -m "Complete lesson 3 exercises"
@@ -191,6 +194,7 @@ To avoid conflicts when updating:
    ```
 
 3. **When updates are available**, switch to main and update:
+
    ```bash
    git checkout main
    git fetch upstream
