@@ -531,6 +531,6 @@ console.log(Product.getTotalValue());     // 1099 (static method)
 
 ## What's Next?
 
-- Learn about access modifiers (public, private, protected) (File 03)
+- Understand inheritance and how to extend classes (File 03)
 - Use getters and setters for controlled property access (File 04)
-- Understand inheritance and how static members work with it (File 05)
+- Learn about access modifiers (public, private, protected) (File 05)

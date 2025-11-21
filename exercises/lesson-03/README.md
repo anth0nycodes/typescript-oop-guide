@@ -1,557 +1,476 @@
-# Lesson 03 Exercises: Access Modifiers and Encapsulation
+# Lesson 03 Exercises: Inheritance
 
-Complete these exercises to practice using access modifiers (public, private, protected, readonly) and understanding encapsulation principles.
+Complete these exercises to practice class inheritance, the `super` keyword, method overriding, and building class hierarchies.
 
 ---
 
-## Exercise 1: Public vs Private (Easy)
+## Exercise 1: Basic Inheritance (Easy)
 
-**File:** `01-public-vs-private-easy.ts`
+**File:** `01-basic-inheritance-easy.ts`
 
-Create a `Wallet` class that demonstrates the importance of private properties:
+Create an `Animal` base class and `Dog` subclass:
 
 **Requirements:**
-- Private property: `_balance` (number)
-- Public constructor accepting initial balance
-- Public method `deposit(amount: number)`: adds to balance with validation (amount > 0)
-- Public method `withdraw(amount: number)`: removes from balance with validation (amount > 0, sufficient funds)
-- Public method `getBalance()`: returns current balance
+
+**Animal class:**
+- Properties: `name` (string), `age` (number)
+- Constructor accepts name and age
+- Method `makeSound()`: returns "Some generic animal sound"
+- Method `getInfo()`: returns formatted animal information
+
+**Dog class (extends Animal):**
+- Additional property: `breed` (string)
+- Constructor accepts name, age, and breed (must call super)
+- Override `makeSound()`: returns "Woof! Woof!"
+- Method `fetch()`: returns "Dog is fetching!"
 
 **Validation Requirements:**
-- Constructor:
-  - Initial balance must be >= 0
-  - Cannot start with a negative balance
-- `deposit(amount)`:
-  - Amount must be positive (> 0)
-  - Reject zero or negative amounts
-  - Only add to balance if validation passes
-- `withdraw(amount)`:
-  - Amount must be positive (> 0)
-  - Amount must not exceed current balance
-  - Only subtract from balance if validation passes
-- `_balance`:
-  - Must remain private (not accessible outside the class)
-  - Should never be negative after any operation
+- Animal class:
+  - Constructor: name must be non-empty string, age must be >= 0
+  - `makeSound()`: return appropriate sound string
+  - `getInfo()`: return formatted string with name and age
+- Dog class:
+  - Constructor: must call `super(name, age)` before accessing `this`
+  - breed must be non-empty string
+  - Override `makeSound()`: must return different sound than parent
 
 **Example usage:**
 ```typescript
-const wallet = new Wallet(100);
+const animal = new Animal("Generic Animal", 5);
 
-// Test initial balance
-console.log(wallet.getBalance()); // 100
+// Test Animal methods
+console.log(animal.name);        // "Generic Animal"
+console.log(animal.age);         // 5
+console.log(animal.makeSound()); // "Some generic animal sound"
+console.log(animal.getInfo());   // "Generic Animal is 5 years old"
 
-// Test deposit
-wallet.deposit(50);
-console.log(wallet.getBalance()); // 150
+const dog = new Dog("Buddy", 3, "Golden Retriever");
 
-wallet.deposit(25);
-console.log(wallet.getBalance()); // 175
+// Test inherited properties
+console.log(dog.name);        // "Buddy"
+console.log(dog.age);         // 3
 
-// Test withdraw
-wallet.withdraw(30);
-console.log(wallet.getBalance()); // 145
+// Test Dog-specific property
+console.log(dog.breed);       // "Golden Retriever"
 
-wallet.withdraw(45);
-console.log(wallet.getBalance()); // 100
+// Test overridden method
+console.log(dog.makeSound()); // "Woof! Woof!" (overridden)
 
-// Test edge case: withdraw exact balance
-wallet.withdraw(100);
-console.log(wallet.getBalance()); // 0
+// Test inherited method
+console.log(dog.getInfo());   // "Buddy is 3 years old" (inherited)
 
-// Test edge case: withdraw with insufficient funds (should fail)
-wallet.deposit(50);
-console.log(wallet.getBalance()); // 50
-// wallet.withdraw(100); // Should throw error or return false (insufficient funds)
+// Test Dog-specific method
+console.log(dog.fetch());     // "Dog is fetching!"
 
-// Test edge case: deposit zero or negative (should fail)
-// wallet.deposit(0);   // Should throw error or be rejected
-// wallet.deposit(-50); // Should throw error or be rejected
+// Test multiple dogs
+const dog2 = new Dog("Max", 5, "Labrador");
+console.log(dog2.makeSound()); // "Woof! Woof!"
+console.log(dog2.breed);       // "Labrador"
+console.log(dog2.getInfo());   // "Max is 5 years old"
 
-// Test that balance is private
-// wallet._balance = 999999; // ❌ Error - private property cannot be accessed
-
-// Test multiple independent wallets
-const wallet2 = new Wallet(200);
-wallet.deposit(50);
-console.log(wallet.getBalance());  // 100
-console.log(wallet2.getBalance()); // 200 (independent)
+// Test that Animal and Dog are independent
+const animal2 = new Animal("Cat", 2);
+console.log(animal2.makeSound()); // "Some generic animal sound" (not "Woof!")
 ```
 
-**Learning goals:** Private properties, encapsulation, controlled access through methods
+**Learning goals:** Basic inheritance with `extends`, calling `super()` in constructor, method overriding
 
 ---
 
-## Exercise 2: Readonly Properties (Easy)
+## Exercise 2: Using super in Methods (Easy)
 
-**File:** `02-readonly-properties-easy.ts`
+**File:** `02-using-super-methods-easy.ts`
 
-Create a `Book` class with immutable properties:
-
-**Requirements:**
-- Readonly properties: `isbn` (string), `title` (string), `author` (string), `publishedYear` (number)
-- Property: `available` (boolean, can be modified)
-- Constructor accepts all properties
-- Method `checkOut()`: sets available to false if currently available
-- Method `returnBook()`: sets available to true
-- Method `getInfo()`: returns formatted book info
-
-**Validation Requirements:**
-- Constructor:
-  - isbn, title, and author must be non-empty strings
-  - publishedYear must be a valid year (positive number, reasonable range)
-  - available defaults to true
-- `checkOut()`:
-  - Only succeed if book is currently available (available === true)
-  - Return boolean indicating success/failure
-  - Set available to false only on success
-- `returnBook()`:
-  - Always set available to true
-  - Can return book even if already available (idempotent)
-- Readonly properties:
-  - Cannot be modified after construction
-  - isbn, title, author, publishedYear are immutable
-
-**Example usage:**
-```typescript
-const book = new Book("978-0-123", "1984", "George Orwell", 1949);
-
-// Test initial state
-console.log(book.getInfo());
-// "1984 by George Orwell (1949) - ISBN: 978-0-123 - Available"
-console.log(book.available); // true
-
-// Test readonly properties are accessible
-console.log(book.isbn);          // "978-0-123"
-console.log(book.title);         // "1984"
-console.log(book.author);        // "George Orwell"
-console.log(book.publishedYear); // 1949
-
-// Test checkOut
-const checkOutSuccess = book.checkOut();
-console.log(checkOutSuccess); // true
-console.log(book.available);  // false
-console.log(book.getInfo());
-// "1984 by George Orwell (1949) - ISBN: 978-0-123 - Not Available"
-
-// Test edge case: checking out already checked out book
-const checkOutFail = book.checkOut();
-console.log(checkOutFail);   // false (already checked out)
-console.log(book.available); // false (unchanged)
-
-// Test returnBook
-book.returnBook();
-console.log(book.available); // true
-console.log(book.getInfo());
-// "1984 by George Orwell (1949) - ISBN: 978-0-123 - Available"
-
-// Test edge case: returning already available book
-book.returnBook();
-console.log(book.available); // true (idempotent)
-
-// Test that readonly properties cannot be modified
-// book.isbn = "999";        // ❌ Error - readonly property
-// book.title = "New Title"; // ❌ Error - readonly property
-// book.author = "Someone";  // ❌ Error - readonly property
-// book.publishedYear = 2000;// ❌ Error - readonly property
-
-// Test that available can be modified directly (not readonly)
-book.available = false; // ✅ OK - not readonly
-console.log(book.available); // false
-book.available = true;
-console.log(book.available); // true
-
-// Test multiple independent books
-const book2 = new Book("978-0-456", "The Hobbit", "J.R.R. Tolkien", 1937);
-book.checkOut();
-console.log(book.available);  // false
-console.log(book2.available); // true (independent)
-```
-
-**Learning goals:** Readonly modifier, immutable properties, when to use readonly
-
----
-
-## Exercise 3: Protected Access (Medium)
-
-**File:** `03-protected-access-medium.ts`
-
-Create a `Vehicle` base class and `Car` subclass demonstrating protected members:
+Create a `Vehicle` and `Car` class that demonstrates calling parent methods:
 
 **Requirements:**
 
 **Vehicle class:**
-- Protected property: `engineStatus` (string: "off" or "on")
-- Public property: `brand` (string)
-- Public property: `model` (string)
-- Constructor accepts brand and model
-- Protected method `startEngine()`: sets engineStatus to "on"
-- Protected method `stopEngine()`: sets engineStatus to "off"
-- Public method `getEngineStatus()`: returns engineStatus
+- Properties: `brand` (string), `year` (number), `mileage` (number)
+- Constructor accepts brand, year, initial mileage (default 0)
+- Method `drive(distance: number)`: adds to mileage, returns message
+- Method `getDetails()`: returns vehicle details
 
 **Car class (extends Vehicle):**
-- Private property: `fuelLevel` (number, 0-100)
-- Constructor accepts brand, model, and initial fuel level
-- Public method `drive()`: checks fuel and engine status, consumes fuel
-- Public method `refuel(amount: number)`: adds fuel (max 100)
-- Public method `start()`: starts engine if fuel > 0
-- Public method `stop()`: stops engine
+- Additional property: `model` (string)
+- Constructor accepts brand, year, model, initial mileage
+- Override `drive(distance: number)`: calls super.drive(), then returns additional car-specific message
+- Override `getDetails()`: calls super.getDetails() and adds model information
 
 **Validation Requirements:**
 - Vehicle class:
-  - Constructor: brand and model must be non-empty strings
-  - `startEngine()`: only callable from subclasses (protected)
-  - `stopEngine()`: only callable from subclasses (protected)
-  - `engineStatus`: only accessible from subclasses (protected)
+  - Constructor: brand non-empty, year valid number, mileage >= 0
+  - `drive(distance)`: distance must be positive, updates mileage
+  - `getDetails()`: return formatted string
 - Car class:
-  - Constructor: fuelLevel must be between 0 and 100
-  - `drive()`: only works if engine is "on" and fuel > 0, consumes fuel (e.g., 10 units)
-  - `refuel(amount)`: amount must be positive, cannot exceed 100 total
-  - `start()`: only works if fuel > 0, sets engine to "on"
-  - `stop()`: always works, sets engine to "off"
+  - Constructor: must call `super()` first, model non-empty
+  - Override `drive()`: must call `super.drive(distance)` to update mileage
+  - Override `getDetails()`: must call `super.getDetails()` and extend result
 
 **Example usage:**
 ```typescript
-const car = new Car("Toyota", "Camry", 50);
+const vehicle = new Vehicle("Generic", 2020, 1000);
 
-// Test initial state
-console.log(car.brand);             // "Toyota"
-console.log(car.model);             // "Camry"
-console.log(car.getEngineStatus()); // "off"
+// Test Vehicle methods
+console.log(vehicle.brand);   // "Generic"
+console.log(vehicle.year);    // 2020
+console.log(vehicle.mileage); // 1000
 
-// Test start
-car.start();
-console.log(car.getEngineStatus()); // "on"
+console.log(vehicle.drive(50));
+// "Drove 50 miles. Total mileage: 1050"
+console.log(vehicle.mileage); // 1050
 
-// Test drive
-car.drive();
-console.log(car.getEngineStatus()); // "on" (still on, fuel decreased to 40)
+console.log(vehicle.drive(100));
+// "Drove 100 miles. Total mileage: 1150"
 
-// Test stop
-car.stop();
-console.log(car.getEngineStatus()); // "off"
+console.log(vehicle.getDetails());
+// "2020 Generic (1150 miles)"
 
-// Test edge case: trying to drive when engine is off
-car.drive();
-console.log(car.getEngineStatus()); // "off" (drive should fail, engine still off)
+const car = new Car("Toyota", 2022, "Camry", 500);
 
-// Test edge case: starting with no fuel
-const emptyCar = new Car("Honda", "Civic", 0);
-emptyCar.start();
-console.log(emptyCar.getEngineStatus()); // "off" (cannot start with no fuel)
+// Test inherited properties
+console.log(car.brand);   // "Toyota"
+console.log(car.year);    // 2022
+console.log(car.mileage); // 500
 
-// Test refuel
-emptyCar.refuel(30);
-emptyCar.start();
-console.log(emptyCar.getEngineStatus()); // "on" (can start now)
+// Test Car-specific property
+console.log(car.model);   // "Camry"
 
-// Test edge case: refuel beyond max (100)
-car.refuel(60);
-// Should cap at 100 or handle appropriately
+// Test overridden drive (calls super)
+console.log(car.drive(100));
+// "Drove 100 miles. Total mileage: 600"
+// "Car Camry drove smoothly"
+console.log(car.mileage); // 600 (updated by super.drive())
 
-// Test edge case: drive until out of fuel
-car.start();
-car.drive(); // 40 fuel
-car.drive(); // 30 fuel
-car.drive(); // 20 fuel
-car.drive(); // 10 fuel
-car.drive(); // 0 fuel, engine should stop or prevent further driving
+car.drive(50);
+console.log(car.mileage); // 650
 
-// Test that protected members are not accessible
-// car.engineStatus = "broken";     // ❌ Error - protected property
-// car.startEngine();                // ❌ Error - protected method
-// car.stopEngine();                 // ❌ Error - protected method
+// Test overridden getDetails (calls super)
+console.log(car.getDetails());
+// "2022 Toyota (650 miles)"
+// "Model: Camry"
 
-// Test multiple independent cars
-const car2 = new Car("Ford", "Mustang", 80);
-car.start();
-console.log(car.getEngineStatus());  // "on"
-console.log(car2.getEngineStatus()); // "off" (independent)
+// Test multiple vehicles
+const car2 = new Car("Honda", 2023, "Accord", 0);
+car2.drive(200);
+console.log(car.mileage);  // 650
+console.log(car2.mileage); // 200 (independent)
 ```
 
-**Learning goals:** Protected modifier, inheritance with access control, protected vs private
+**Learning goals:** Calling parent methods with `super.method()`, extending parent behavior
 
 ---
 
-## Exercise 4: Proper Encapsulation (Medium)
+## Exercise 3: Multi-Level Inheritance (Medium)
 
-**File:** `04-proper-encapsulation-medium.ts`
+**File:** `03-multi-level-inheritance-medium.ts`
 
-Create a `ShoppingCart` class with proper encapsulation:
+Create a three-level inheritance hierarchy:
 
 **Requirements:**
-- Private property: `items` (array of {name: string, price: number, quantity: number})
-- Private property: `discountPercentage` (number, 0-100)
-- Public method `addItem(name: string, price: number, quantity: number)`: adds item with validation
-- Public method `removeItem(name: string)`: removes item by name
-- Public method `updateQuantity(name: string, newQuantity: number)`: updates item quantity
-- Public method `applyDiscount(percentage: number)`: sets discount (0-100)
-- Public method `getTotal()`: calculates total with discount applied
-- Public method `getItemCount()`: returns total number of items
-- Public method `getItems()`: returns copy of items array (not direct reference!)
-- Public method `clear()`: empties cart
+
+**LivingBeing class (base):**
+- Property: `isAlive` (boolean, default true)
+- Method `breathe()`: returns "Breathing..."
+
+**Animal class (extends LivingBeing):**
+- Properties: `name` (string), `species` (string)
+- Constructor accepts name and species
+- Method `move()`: returns "Moving..."
+- Method `eat()`: returns "Eating..."
+
+**Mammal class (extends Animal):**
+- Additional property: `furColor` (string)
+- Constructor accepts name, species, furColor
+- Method `produceMilk()`: returns "Producing milk..."
+- Override `breathe()`: calls super and adds mammal-specific info
 
 **Validation Requirements:**
-- Constructor:
-  - Initialize items as empty array
-  - Initialize discountPercentage as 0
-- `addItem(name, price, quantity)`:
-  - name must be non-empty string
-  - price must be positive (> 0)
-  - quantity must be positive (> 0)
-  - If item with same name exists, update quantity instead of adding duplicate
-- `removeItem(name)`:
-  - Only remove if item exists
-  - Return boolean or do nothing if not found
-- `updateQuantity(name, newQuantity)`:
-  - newQuantity must be positive (> 0)
-  - Only update if item exists
-  - If newQuantity is 0, consider removing the item
-- `applyDiscount(percentage)`:
-  - percentage must be between 0 and 100
-  - Reject values outside this range
-- `getItems()`:
-  - Must return a COPY of the items array, not the original
-  - Modifying returned array should not affect cart's internal state
-- `items` and `discountPercentage`:
-  - Must remain private and inaccessible from outside
+- LivingBeing: isAlive defaults to true
+- Animal: name and species non-empty, must call super()
+- Mammal: furColor non-empty, must call super(name, species)
+- Override `breathe()`: must call super.breathe() and extend
 
 **Example usage:**
 ```typescript
-const cart = new ShoppingCart();
+const mammal = new Mammal("Lion", "Panthera leo", "Golden");
+
+// Test methods from all levels
+console.log(mammal.breathe());
+// "Breathing..."
+// "Mammal breathing with lungs"
+
+console.log(mammal.move());        // "Moving..." (from Animal)
+console.log(mammal.eat());         // "Eating..." (from Animal)
+console.log(mammal.produceMilk()); // "Producing milk..." (from Mammal)
+
+// Test properties from all levels
+console.log(mammal.isAlive);       // true (from LivingBeing)
+console.log(mammal.name);          // "Lion" (from Animal)
+console.log(mammal.species);       // "Panthera leo" (from Animal)
+console.log(mammal.furColor);      // "Golden" (from Mammal)
+
+// Test multiple mammals
+const mammal2 = new Mammal("Bear", "Ursus arctos", "Brown");
+console.log(mammal2.name);         // "Bear"
+console.log(mammal2.species);      // "Ursus arctos"
+console.log(mammal2.furColor);     // "Brown"
+console.log(mammal2.breathe());
+// "Breathing..."
+// "Mammal breathing with lungs"
+
+// Test that properties are independent
+console.log(mammal.name);          // "Lion" (unchanged)
+console.log(mammal.furColor);      // "Golden" (unchanged)
+```
+
+**Learning goals:** Multi-level inheritance, accessing properties and methods from all levels
+
+---
+
+## Exercise 4: Method Overriding and Protected Members (Medium)
+
+**File:** `04-method-overriding-protected-medium.ts`
+
+Create an employee hierarchy with protected members:
+
+**Requirements:**
+
+**Employee class (base):**
+- Protected properties: `baseSalary` (number), `bonus` (number, default 0)
+- Public properties: `name` (string), `id` (number)
+- Constructor accepts name, id, baseSalary
+- Method `calculatePay()`: returns baseSalary + bonus
+- Method `setBonus(amount: number)`: sets bonus
+- Method `getDetails()`: returns employee details
+
+**Manager class (extends Employee):**
+- Private property: `teamSize` (number)
+- Constructor accepts name, id, baseSalary, teamSize
+- Override `calculatePay()`: calls super, adds team bonus (teamSize * 100)
+- Method `getTeamSize()`: returns teamSize
+
+**Developer class (extends Employee):**
+- Private property: `programmingLanguages` (string[])
+- Constructor accepts name, id, baseSalary, languages
+- Override `calculatePay()`: calls super, adds language bonus (languages.length * 500)
+- Method `addLanguage(language: string)`: adds language to array
+
+**Validation Requirements:**
+- Employee: name non-empty, id positive, baseSalary >= 0
+- baseSalary and bonus must be protected (accessible in subclasses)
+- Manager: teamSize must be >= 0
+- Developer: languages must be array, addLanguage validates non-empty
+- All calculatePay() overrides must call super.calculatePay()
+
+**Example usage:**
+```typescript
+const manager = new Manager("Alice", 1, 80000, 5);
 
 // Test initial state
-console.log(cart.getItemCount()); // 0
-console.log(cart.getTotal());     // 0
+console.log(manager.name);    // "Alice"
+console.log(manager.id);      // 1
+console.log(manager.getDetails()); // Employee details
+
+// Test calculatePay without bonus
+console.log(manager.calculatePay());
+// 80500 (80000 + 0 + 500 team bonus)
+
+// Test setBonus
+manager.setBonus(5000);
+console.log(manager.calculatePay());
+// 85500 (80000 + 5000 + 500)
+
+// Test getTeamSize
+console.log(manager.getTeamSize()); // 5
+
+const dev = new Developer("Bob", 2, 90000, ["TypeScript", "Python"]);
+
+// Test initial state
+console.log(dev.name);         // "Bob"
+console.log(dev.id);           // 2
+console.log(dev.calculatePay());
+// 91000 (90000 + 0 + 1000 language bonus for 2 languages)
+
+// Test setBonus
+dev.setBonus(3000);
+console.log(dev.calculatePay());
+// 94000 (90000 + 3000 + 1000)
+
+// Test addLanguage
+dev.addLanguage("Rust");
+console.log(dev.calculatePay());
+// 94500 (90000 + 3000 + 1500 for 3 languages)
+
+dev.addLanguage("Go");
+console.log(dev.calculatePay());
+// 95000 (90000 + 3000 + 2000 for 4 languages)
+
+// Test getDetails (inherited)
+console.log(dev.getDetails()); // Employee details
+
+// Test multiple employees
+const dev2 = new Developer("Charlie", 3, 85000, ["JavaScript"]);
+dev2.setBonus(2000);
+console.log(dev2.calculatePay());
+// 87500 (85000 + 2000 + 500 for 1 language)
+
+console.log(dev.calculatePay());  // 95000 (unchanged)
+console.log(manager.calculatePay()); // 85500 (independent)
+```
+
+**Learning goals:** Protected members in inheritance, method overriding with super, specialized behavior in subclasses
+
+---
+
+## Exercise 5: Complex Inheritance Hierarchy (Hard)
+
+**File:** `05-complex-hierarchy-hard.ts`
+
+Create a comprehensive media library system:
+
+**Requirements:**
+
+**MediaItem (base class):**
+- Protected properties: `title` (string), `creator` (string), `year` (number), `rating` (number, 0-10)
+- Static property: `totalItems` (tracks all media items)
+- Constructor accepts title, creator, year
+- Method `rate(score: number)`: validates and sets rating (0-10)
+- Method `getRating()`: returns rating
+- Method `getInfo()`: returns basic media info
+- Static method `getTotalItems()`: returns total items created
+
+**Book (extends MediaItem):**
+- Additional properties: `isbn` (string), `pages` (number), `genre` (string)
+- Constructor accepts title, author, year, isbn, pages, genre
+- Override `getInfo()`: calls super and adds book-specific details
+- Method `getReadingTime()`: estimates reading time (pages / 50 words per page)
+
+**Movie (extends MediaItem):**
+- Additional properties: `duration` (number, in minutes), `director` (string), `genre` (string)
+- Constructor accepts title, director, year, duration, genre
+- Override `getInfo()`: calls super and adds movie-specific details
+- Method `isLongMovie()`: returns true if duration > 150 minutes
+
+**Album (extends MediaItem):**
+- Additional properties: `artist` (string), `tracks` (number), `genre` (string)
+- Constructor accepts title, artist, year, tracks, genre
+- Override `getInfo()`: calls super and adds album-specific details
+- Method `getAverageTrackLength(totalMinutes: number)`: calculates average track length
+
+**Library class:**
+- Property: `collection` (array of MediaItem - holds books, movies, albums)
+- Method `addItem(item: MediaItem)`: adds to collection
+- Method `removeItem(title: string)`: removes from collection
+- Method `getByRating(minRating: number)`: returns items with rating >= minRating
+- Method `getBooks()`: returns only Book items
+- Method `getMovies()`: returns only Movie items
+- Method `getAlbums()`: returns only Album items
+- Method `getAverageRating()`: calculates average rating of all items
+
+**Validation Requirements:**
+- MediaItem: title, creator non-empty, year valid, rating 0-10
+- Book: isbn non-empty, pages > 0, genre non-empty
+- Movie: duration > 0, director non-empty, genre non-empty
+- Album: artist non-empty, tracks > 0, genre non-empty
+- All getInfo() overrides must call super.getInfo()
+- Static totalItems increments with each MediaItem created
+- Library methods use instanceof to filter by type
+
+**Example usage:**
+```typescript
+const library = new Library();
+
+// Create media items
+const book = new Book("1984", "George Orwell", 1949, "978-0-452-28423-4", 328, "Dystopian");
+const movie = new Movie("Inception", "Christopher Nolan", 2010, 148, "Sci-Fi");
+const album = new Album("Abbey Road", "The Beatles", 1969, 17, "Rock");
+
+// Test static counter
+console.log(MediaItem.getTotalItems()); // 3
 
 // Test addItem
-cart.addItem("Laptop", 1000, 1);
-console.log(cart.getItemCount()); // 1
-console.log(cart.getTotal());     // 1000
+library.addItem(book);
+library.addItem(movie);
+library.addItem(album);
 
-cart.addItem("Mouse", 25, 2);
-console.log(cart.getItemCount()); // 2
-console.log(cart.getTotal());     // 1050
+// Test rate method (inherited)
+book.rate(9);
+console.log(book.getRating()); // 9
 
-cart.addItem("Keyboard", 50, 1);
-console.log(cart.getItemCount()); // 3
-console.log(cart.getTotal());     // 1100
+movie.rate(8.5);
+console.log(movie.getRating()); // 8.5
 
-// Test edge case: adding duplicate item (should update quantity)
-cart.addItem("Mouse", 25, 1);
-console.log(cart.getItemCount()); // 3 (not 4, quantity updated)
-console.log(cart.getTotal());     // 1125
+album.rate(10);
+console.log(album.getRating()); // 10
 
-// Test applyDiscount
-cart.applyDiscount(10); // 10% off
-console.log(cart.getTotal()); // 1012.5
+// Test getInfo (overridden in each subclass)
+console.log(book.getInfo());
+// Base info + "ISBN: 978-0-452-28423-4, Pages: 328, Genre: Dystopian"
 
-cart.applyDiscount(20); // 20% off
-console.log(cart.getTotal()); // 900
+console.log(movie.getInfo());
+// Base info + "Director: Christopher Nolan, Duration: 148 mins, Genre: Sci-Fi"
 
-// Test edge case: invalid discount
-// cart.applyDiscount(-10);  // Should throw error or be rejected
-// cart.applyDiscount(150);  // Should throw error or be rejected
+console.log(album.getInfo());
+// Base info + "Artist: The Beatles, Tracks: 17, Genre: Rock"
 
-// Test updateQuantity
-cart.updateQuantity("Mouse", 1);
-console.log(cart.getTotal()); // 875
+// Test getAverageRating
+console.log(library.getAverageRating()); // 9.17 (27.5 / 3)
 
-cart.updateQuantity("Laptop", 2);
-console.log(cart.getTotal()); // 1700
+// Test getByRating
+const highRated = library.getByRating(9);
+console.log(highRated.length); // 2 (book and album)
 
-// Test edge case: update non-existent item
-cart.updateQuantity("NonExistent", 5); // Should fail gracefully
+const allRated = library.getByRating(0);
+console.log(allRated.length); // 3 (all items)
+
+// Test type-specific methods
+console.log(book.getReadingTime());   // ~6.5 hours (328 pages)
+console.log(movie.isLongMovie());     // false (148 < 150 minutes)
+console.log(album.getAverageTrackLength(47)); // ~2.76 minutes per track
+
+// Test Library filtering methods
+const books = library.getBooks();
+console.log(books.length); // 1
+
+const movies = library.getMovies();
+console.log(movies.length); // 1
+
+const albums = library.getAlbums();
+console.log(albums.length); // 1
 
 // Test removeItem
-cart.removeItem("Keyboard");
-console.log(cart.getItemCount()); // 2
-console.log(cart.getTotal());     // 1650
+library.removeItem("Inception");
+console.log(library.getMovies().length); // 0
 
-// Test edge case: remove non-existent item
-cart.removeItem("NonExistent"); // Should fail gracefully
+// Test multiple media items
+const book2 = new Book("The Hobbit", "J.R.R. Tolkien", 1937, "978-0-547-92822-7", 310, "Fantasy");
+library.addItem(book2);
+book2.rate(8);
 
-// Test getItems returns a copy
-const items = cart.getItems();
-console.log(items.length); // 2
+console.log(library.getBooks().length); // 2
+console.log(library.getAverageRating()); // 9 ((9 + 10 + 8) / 3)
 
-// Modifying returned copy doesn't affect cart
-items.push({name: "Hack", price: 0, quantity: 1});
-console.log(items.length);        // 3 (modified copy)
-console.log(cart.getItemCount()); // 2 (original unchanged)
-
-items[0].price = 99999;
-console.log(cart.getTotal()); // Still 1650 (not affected by copy modification)
-
-// Test that private properties are not accessible
-// cart.items.push({...});          // ❌ Error - items is private
-// cart.discountPercentage = 50;    // ❌ Error - discountPercentage is private
-
-// Test clear
-cart.clear();
-console.log(cart.getItemCount()); // 0
-console.log(cart.getTotal());     // 0
-
-// Test multiple independent carts
-const cart2 = new ShoppingCart();
-cart.addItem("Item1", 100, 1);
-cart2.addItem("Item2", 200, 1);
-console.log(cart.getTotal());  // 100
-console.log(cart2.getTotal()); // 200 (independent)
+console.log(MediaItem.getTotalItems()); // 4
 ```
 
-**Learning goals:** Full encapsulation, data validation, protecting internal state, returning copies instead of references
-
----
-
-## Exercise 5: Access Control in Practice (Hard)
-
-**File:** `05-access-control-practice-hard.ts`
-
-Create a `BankAccount` hierarchy with proper access control:
-
-**Requirements:**
-
-**BankAccount (base class):**
-- Private property: `accountNumber` (readonly string)
-- Protected property: `balance` (number)
-- Private property: `transactions` (array of {type: string, amount: number, date: Date})
-- Public readonly property: `accountType` (string)
-- Constructor accepts accountNumber and accountType
-- Protected method `recordTransaction(type: string, amount: number)`: adds to transactions
-- Public method `deposit(amount: number)`: adds to balance, records transaction
-- Public method `withdraw(amount: number)`: removes from balance with validation, records transaction
-- Public method `getBalance()`: returns balance
-- Public method `getTransactionHistory()`: returns copy of recent transactions (last 10)
-
-**SavingsAccount (extends BankAccount):**
-- Private property: `interestRate` (number, e.g., 0.02 for 2%)
-- Private property: `minimumBalance` (number, default 100)
-- Constructor accepts accountNumber and interestRate
-- Public method `applyInterest()`: adds interest to balance, records transaction
-- Override `withdraw()`: prevent withdrawal if balance would fall below minimum
-
-**CheckingAccount (extends BankAccount):**
-- Private property: `overdraftLimit` (number)
-- Private property: `monthlyFee` (number)
-- Constructor accepts accountNumber and overdraftLimit
-- Override `withdraw()`: allow overdraft up to limit
-- Public method `applyMonthlyFee()`: deducts fee from balance
-
-**Validation Requirements:**
-- BankAccount:
-  - Constructor: accountNumber must be non-empty string, accountType must be non-empty string
-  - `deposit(amount)`: amount must be positive (> 0), records transaction
-  - `withdraw(amount)`: amount must be positive (> 0), sufficient balance check, records transaction
-  - `recordTransaction()`: must be protected (only accessible to subclasses)
-  - `balance` and `transactions`: must be protected/private
-  - `accountNumber`: must be readonly (cannot change after construction)
-- SavingsAccount:
-  - Constructor: interestRate must be positive
-  - `applyInterest()`: calculates interest based on current balance, adds to balance, records transaction
-  - Override `withdraw()`: prevent withdrawal if balance - amount < minimumBalance
-- CheckingAccount:
-  - Constructor: overdraftLimit must be non-negative
-  - Override `withdraw()`: allow negative balance up to -overdraftLimit
-  - `applyMonthlyFee()`: always deduct fee, records transaction
-
-**Example usage:**
-```typescript
-// Test SavingsAccount
-const savings = new SavingsAccount("SAV-001", 0.02);
-
-// Test initial state
-console.log(savings.getBalance()); // 0
-console.log(savings.accountType);  // "Savings"
-
-// Test deposit
-savings.deposit(1000);
-console.log(savings.getBalance()); // 1000
-
-savings.deposit(500);
-console.log(savings.getBalance()); // 1500
-
-// Test applyInterest
-savings.applyInterest();
-console.log(savings.getBalance()); // 1530 (1500 * 1.02)
-
-// Test withdraw
-savings.withdraw(200);
-console.log(savings.getBalance()); // 1330
-
-// Test edge case: withdraw that would go below minimum balance
-// savings.withdraw(1250); // Should fail - would leave balance at 80 (< 100 minimum)
-console.log(savings.getBalance()); // 1330 (unchanged)
-
-// Test edge case: withdraw exact amount to minimum balance
-savings.withdraw(1230);
-console.log(savings.getBalance()); // 100 (at minimum, should succeed)
-
-// Test CheckingAccount
-const checking = new CheckingAccount("CHK-001", 500);
-
-// Test initial state
-console.log(checking.getBalance()); // 0
-console.log(checking.accountType);  // "Checking"
-
-// Test deposit
-checking.deposit(300);
-console.log(checking.getBalance()); // 300
-
-// Test withdraw with overdraft
-checking.withdraw(600); // Overdraft allowed up to 500
-console.log(checking.getBalance()); // -300
-
-checking.withdraw(100);
-console.log(checking.getBalance()); // -400
-
-// Test edge case: withdraw beyond overdraft limit
-// checking.withdraw(200); // Should fail - would exceed overdraft limit of 500
-console.log(checking.getBalance()); // -400 (unchanged)
-
-// Test applyMonthlyFee
-checking.applyMonthlyFee();
-console.log(checking.getBalance()); // -410 (if fee is 10)
-
-// Test transaction history
-const history = checking.getTransactionHistory();
-console.log(history.length); // Up to 10 most recent transactions
-
-// Verify transactions are recorded correctly
-savings.deposit(100);
-savings.withdraw(50);
-savings.applyInterest();
-const savingsHistory = savings.getTransactionHistory();
-console.log(savingsHistory.length); // At least 3 (deposit, withdraw, interest)
-
-// Test that protected/private properties are not accessible
-// savings.balance = 999999;           // ❌ Error - protected property
-// savings.recordTransaction("test", 100); // ❌ Error - protected method
-// savings.accountNumber = "NEW";      // ❌ Error - readonly property
-
-// Test multiple independent accounts
-const savings2 = new SavingsAccount("SAV-002", 0.03);
-savings.deposit(500);
-savings2.deposit(1000);
-console.log(savings.getBalance());  // Previous balance + 500
-console.log(savings2.getBalance()); // 1000 (independent)
-```
-
-**Learning goals:** Complex access control, inheritance with protected members, method overriding, real-world encapsulation patterns
+**Learning goals:** Complex inheritance hierarchies, polymorphism (storing different subclass types in same array), instanceof checking, combining inheritance concepts
 
 ---
 
 ## How to Complete
 
 1. Work through exercises in order (they build in difficulty)
-2. Run each exercise with: `npx ts-node exercises/lesson-03/01-public-vs-private-easy.ts`
-3. Pay attention to when each access modifier is appropriate
-4. Remember: private for implementation details, protected for subclass access, public for external interface
-5. Always validate data in public methods
+2. Run each exercise with: `npx ts-node exercises/lesson-03/01-basic-inheritance-easy.ts`
+3. Always call `super()` in child class constructors before accessing `this`
+4. Use `super.method()` to call parent class methods
+5. Practice overriding methods while extending their functionality
 
 ## Tips
 
-- Read the lesson content in `docs/03-access-modifiers-encapsulation.md` if you get stuck
-- Private = only this class, Protected = this class + subclasses, Public = everywhere
-- Use readonly for properties that shouldn't change after initialization
-- When returning arrays/objects from getters, return copies to prevent external modification
-- Encapsulation isn't just about hiding - it's about controlling HOW data is accessed and modified
+- Read the lesson content in `docs/03-inheritance.md` if you get stuck
+- `extends` creates a parent-child relationship
+- `super()` must be called first in child constructors
+- Use `super.method()` to call parent methods from child methods
+- Protected members are accessible in subclasses but not from outside
+- Method overriding allows specialized behavior while reusing parent code

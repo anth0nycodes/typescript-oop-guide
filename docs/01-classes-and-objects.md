@@ -1320,5 +1320,6 @@ class TodoList {
 
 Now that you have a comprehensive understanding of classes, objects, properties, constructors, methods, and `this`, you'll learn:
 - Static members that belong to the class itself (File 02)
-- Access modifiers to control visibility (File 03)
+- Inheritance to extend classes and reuse code (File 03)
 - Getters and setters for controlled property access (File 04)
+- Access modifiers to control visibility (File 05)

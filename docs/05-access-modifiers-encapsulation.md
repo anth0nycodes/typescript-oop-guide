@@ -478,6 +478,6 @@ class Temperature {
 
 ## What's Next?
 
-- Learn about getters and setters for elegant property access (File 04)
-- Understand how access modifiers work with inheritance (File 05)
-- Explore static members that belong to the class (File 02)
+- Learn about abstract classes and abstraction patterns (File 06)
+- Explore interfaces and polymorphism (File 07)
+- Review inheritance concepts to see how protected works with subclasses (File 03)

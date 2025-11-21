@@ -13,9 +13,9 @@ All documentation is organized in the [`docs/`](docs/) folder:
 0. [**Real-World Use Cases**](docs/00-real-world-use-cases.md) - Understanding when and why to use classes
 1. [**Classes and Objects**](docs/01-classes-and-objects.md) - Comprehensive guide covering classes, objects, properties, constructors, methods, and the `this` keyword
 2. [**Static Members**](docs/02-static-members.md) - Class-level properties and methods
-3. [**Access Modifiers & Encapsulation**](docs/03-access-modifiers-encapsulation.md) - public, private, protected, and readonly
+3. [**Inheritance**](docs/03-inheritance.md) - Extending classes, `super` keyword, and method overriding
 4. [**Getters and Setters**](docs/04-getters-setters.md) - Property accessors, validation, and computed properties
-5. [**Inheritance**](docs/05-inheritance.md) - Extending classes, `super` keyword, and method overriding
+5. [**Access Modifiers & Encapsulation**](docs/05-access-modifiers-encapsulation.md) - public, private, protected, and readonly
 6. [**Abstract Classes**](docs/06-abstract-classes.md) - Abstraction, abstract methods, and templates
 7. [**Interfaces & Polymorphism**](docs/07-interfaces-polymorphism.md) - Contracts, multiple implementations, and polymorphism
 
@@ -29,9 +29,9 @@ Progressive exercises organized by lesson:
 
 - [Lesson 01: Classes, Objects, Properties, Constructors, Methods, and `this`](exercises/lesson-01/) - 7 exercises (Easy → Hard)
 - [Lesson 02: Static Members](exercises/lesson-02/) - 5 exercises (Easy → Hard)
-- [Lesson 03: Access Modifiers and Encapsulation](exercises/lesson-03/) - 5 exercises (Easy → Hard)
+- [Lesson 03: Inheritance](exercises/lesson-03/) - 5 exercises (Easy → Hard)
 - [Lesson 04: Getters and Setters](exercises/lesson-04/) - 5 exercises (Easy → Hard)
-- [Lesson 05: Inheritance](exercises/lesson-05/) - 5 exercises (Easy → Hard)
+- [Lesson 05: Access Modifiers and Encapsulation](exercises/lesson-05/) - 5 exercises (Easy → Hard)
 - [Lesson 06: Abstract Classes](exercises/lesson-06/) - 5 exercises (Easy → Hard)
 - [Lesson 07: Interfaces and Polymorphism](exercises/lesson-07/) - 5 exercises (Easy → Hard)
 
@@ -116,8 +116,10 @@ exercises/
 │   ├── 06-parameter-properties-medium.ts
 │   └── 07-this-context-problem-medium.ts
 ├── lesson-02/          # Static Members
-├── lesson-03/          # Access Modifiers and Encapsulation
-└── ... (lesson-04 through lesson-07)
+├── lesson-03/          # Inheritance
+├── lesson-04/          # Getters and Setters
+├── lesson-05/          # Access Modifiers and Encapsulation
+└── ... (lesson-06 through lesson-07)
 ```
 
 **Completing exercises:**
@@ -201,14 +203,16 @@ Basics (Understanding the Foundation)
 └── 01: Comprehensive guide - classes, objects, properties, constructors, methods, and `this`
     ↓
 Class-Level Features
-├── 02: Static members (class-level vs instance-level)
-└── 03: Access control (public, private, protected, readonly)
+└── 02: Static members (class-level vs instance-level)
+    ↓
+Code Reuse Through Inheritance
+└── 03: Inheritance (code reuse through extension, subclasses)
     ↓
 Advanced Property Access
-└── 04: Getters and setters (controlled access patterns)
+├── 04: Getters and setters (controlled access patterns)
+└── 05: Access control (public, private, protected, readonly)
     ↓
-Advanced Concepts (Code Reuse and Abstraction)
-├── 05: Inheritance (code reuse through extension)
+Advanced Concepts (Abstraction and Contracts)
 ├── 06: Abstract classes (templates for subclasses)
 └── 07: Interfaces & polymorphism (contracts and flexibility)
 ```
