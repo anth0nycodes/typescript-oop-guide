@@ -428,6 +428,8 @@ Create a `User` class and `UserFactory` with advanced factory patterns:
   - `createBatch()`:
     - Must create `count` number of users
     - Must use appropriate factory method based on `role` parameter
+    - Supported roles: "admin", "moderator", "user", "api"
+    - Must throw error for unsupported role types
     - Must generate unique usernames and emails for each user
     - Must increment `userCount` by `count`
   - All factory methods:
