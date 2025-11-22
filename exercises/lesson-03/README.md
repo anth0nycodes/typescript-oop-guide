@@ -228,37 +228,35 @@ console.log(mammal.furColor);      // "Golden" (unchanged)
 
 ---
 
-## Exercise 4: Method Overriding and Protected Members (Medium)
+## Exercise 4: Method Overriding with Inheritance (Medium)
 
-**File:** `04-method-overriding-protected-medium.ts`
+**File:** `04-method-overriding-medium.ts`
 
-Create an employee hierarchy with protected members:
+Create an employee hierarchy demonstrating method overriding:
 
 **Requirements:**
 
 **Employee class (base):**
-- Protected properties: `baseSalary` (number), `bonus` (number, default 0)
-- Public properties: `name` (string), `id` (number)
+- Properties: `name` (string), `id` (number), `baseSalary` (number), `bonus` (number, default 0)
 - Constructor accepts name, id, baseSalary
 - Method `calculatePay()`: returns baseSalary + bonus
 - Method `setBonus(amount: number)`: sets bonus
 - Method `getDetails()`: returns employee details
 
 **Manager class (extends Employee):**
-- Private property: `teamSize` (number)
+- Additional property: `teamSize` (number)
 - Constructor accepts name, id, baseSalary, teamSize
 - Override `calculatePay()`: calls super, adds team bonus (teamSize * 100)
 - Method `getTeamSize()`: returns teamSize
 
 **Developer class (extends Employee):**
-- Private property: `programmingLanguages` (string[])
+- Additional property: `programmingLanguages` (string[])
 - Constructor accepts name, id, baseSalary, languages
 - Override `calculatePay()`: calls super, adds language bonus (languages.length * 500)
 - Method `addLanguage(language: string)`: adds language to array
 
 **Validation Requirements:**
-- Employee: name non-empty, id positive, baseSalary >= 0
-- baseSalary and bonus must be protected (accessible in subclasses)
+- Employee: name non-empty, id positive, baseSalary >= 0, bonus defaults to 0
 - Manager: teamSize must be >= 0
 - Developer: languages must be array, addLanguage validates non-empty
 - All calculatePay() overrides must call super.calculatePay()
@@ -319,7 +317,7 @@ console.log(dev.calculatePay());  // 95000 (unchanged)
 console.log(manager.calculatePay()); // 85500 (independent)
 ```
 
-**Learning goals:** Protected members in inheritance, method overriding with super, specialized behavior in subclasses
+**Learning goals:** Method overriding with super, specialized behavior in subclasses, working with inherited properties
 
 ---
 
@@ -332,7 +330,7 @@ Create a comprehensive media library system:
 **Requirements:**
 
 **MediaItem (base class):**
-- Protected properties: `title` (string), `creator` (string), `year` (number), `rating` (number, 0-10)
+- Properties: `title` (string), `creator` (string), `year` (number), `rating` (number, 0-10)
 - Static property: `totalItems` (tracks all media items)
 - Constructor accepts title, creator, year
 - Method `rate(score: number)`: validates and sets rating (0-10)
