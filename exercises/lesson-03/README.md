@@ -330,50 +330,80 @@ Create a comprehensive media library system:
 **Requirements:**
 
 **MediaItem (base class):**
-- Properties: `title` (string), `creator` (string), `year` (number), `rating` (number, 0-10)
-- Static property: `totalItems` (tracks all media items)
-- Constructor accepts title, creator, year
-- Method `rate(score: number)`: validates and sets rating (0-10)
-- Method `getRating()`: returns rating
-- Method `getInfo()`: returns basic media info
-- Static method `getTotalItems()`: returns total items created
+- Properties:
+  - `title` (string): the title of the media item
+  - `creator` (string): the creator's name (author for books, director for movies, artist for albums)
+  - `year` (number): the year of release
+  - `rating` (number): the rating score, initially unset, valid range 0-10
+- Static property:
+  - `totalItems` (number): tracks the total count of all MediaItem instances created
+- Constructor: accepts `title`, `creator`, and `year` parameters, validates them, and increments the static `totalItems` counter
+- Method `rate(score: number)`: validates that the score is between 0 and 10 (inclusive), then sets the `rating` property to the provided score
+- Method `getRating()`: returns the current `rating` value
+- Method `getInfo()`: returns a string containing the basic media information (title, creator, year, and rating if set)
+- Static method `getTotalItems()`: returns the current value of the static `totalItems` counter
 
 **Book (extends MediaItem):**
-- Additional properties: `isbn` (string), `pages` (number), `genre` (string)
-- Constructor accepts title, author, year, isbn, pages, genre
-- Override `getInfo()`: calls super and adds book-specific details
-- Method `getReadingTime()`: estimates reading time (pages / 50 words per page)
+- Additional properties:
+  - `isbn` (string): the book's ISBN number
+  - `pages` (number): the total number of pages in the book
+  - `genre` (string): the book's genre category
+- Constructor: accepts `title`, `author` (passed to super as `creator`), `year`, `isbn`, `pages`, and `genre` parameters, validates all book-specific properties, and calls `super(title, author, year)`
+- Override `getInfo()`: calls `super.getInfo()` to get the base information, then appends book-specific details including ISBN, page count, and genre
+- Method `getReadingTime()`: calculates and returns the estimated reading time in hours based on 50 pages per hour
 
 **Movie (extends MediaItem):**
-- Additional properties: `duration` (number, in minutes), `director` (string), `genre` (string)
-- Constructor accepts title, director, year, duration, genre
-- Override `getInfo()`: calls super and adds movie-specific details
-- Method `isLongMovie()`: returns true if duration > 150 minutes
+- Additional properties:
+  - `duration` (number): the movie's runtime in minutes
+  - `director` (string): the director's name (also passed to super as `creator`)
+  - `genre` (string): the movie's genre category
+- Constructor: accepts `title`, `director` (passed to super as `creator`), `year`, `duration`, and `genre` parameters, validates all movie-specific properties, and calls `super(title, director, year)`
+- Override `getInfo()`: calls `super.getInfo()` to get the base information, then appends movie-specific details including director, duration, and genre
+- Method `isLongMovie()`: returns `true` if the movie's duration is greater than 150 minutes, otherwise returns `false`
 
 **Album (extends MediaItem):**
-- Additional properties: `artist` (string), `tracks` (number), `genre` (string)
-- Constructor accepts title, artist, year, tracks, genre
-- Override `getInfo()`: calls super and adds album-specific details
-- Method `getAverageTrackLength(totalMinutes: number)`: calculates average track length
+- Additional properties:
+  - `artist` (string): the artist or band name (also passed to super as `creator`)
+  - `tracks` (number): the total number of tracks on the album
+  - `genre` (string): the album's genre category
+- Constructor: accepts `title`, `artist` (passed to super as `creator`), `year`, `tracks`, and `genre` parameters, validates all album-specific properties, and calls `super(title, artist, year)`
+- Override `getInfo()`: calls `super.getInfo()` to get the base information, then appends album-specific details including artist, track count, and genre
+- Method `getAverageTrackLength(totalMinutes: number)`: accepts the album's total duration in minutes and returns the average track length in minutes by dividing `totalMinutes` by the number of `tracks`
 
 **Library class:**
-- Property: `collection` (array of MediaItem - holds books, movies, albums)
-- Method `addItem(item: MediaItem)`: adds to collection
-- Method `removeItem(title: string)`: removes from collection
-- Method `getByRating(minRating: number)`: returns items with rating >= minRating
-- Method `getBooks()`: returns only Book items
-- Method `getMovies()`: returns only Movie items
-- Method `getAlbums()`: returns only Album items
-- Method `getAverageRating()`: calculates average rating of all items
+- Property:
+  - `collection` (MediaItem[]): an array that stores all media items (can hold Book, Movie, and Album instances thanks to polymorphism)
+- Method `addItem(item: MediaItem)`: accepts a MediaItem instance (or any subclass) and adds it to the `collection` array
+- Method `removeItem(title: string)`: accepts a title string, finds the first media item in the collection with a matching title, and removes it from the collection
+- Method `getByRating(minRating: number)`: accepts a minimum rating value and returns an array of all media items that have a rating greater than or equal to `minRating`
+- Method `getBooks()`: returns an array containing only the Book instances from the collection (use `instanceof` to filter)
+- Method `getMovies()`: returns an array containing only the Movie instances from the collection (use `instanceof` to filter)
+- Method `getAlbums()`: returns an array containing only the Album instances from the collection (use `instanceof` to filter)
+- Method `getAverageRating()`: calculates and returns the average rating across all items in the collection that have been rated
 
 **Validation Requirements:**
-- MediaItem: title, creator non-empty, year valid, rating 0-10
-- Book: isbn non-empty, pages > 0, genre non-empty
-- Movie: duration > 0, director non-empty, genre non-empty
-- Album: artist non-empty, tracks > 0, genre non-empty
-- All getInfo() overrides must call super.getInfo()
-- Static totalItems increments with each MediaItem created
-- Library methods use instanceof to filter by type
+- MediaItem class:
+  - Constructor: `title` must be a non-empty string, `creator` must be a non-empty string, `year` must be a valid number
+  - `rate(score)`: `score` must be between 0 and 10 (inclusive)
+  - `rating` property should initially be unset (or set to a default value) until `rate()` is called
+- Book class:
+  - Constructor: must call `super(title, author, year)` before accessing `this`
+  - `isbn` must be a non-empty string
+  - `pages` must be greater than 0
+  - `genre` must be a non-empty string
+- Movie class:
+  - Constructor: must call `super(title, director, year)` before accessing `this`
+  - `duration` must be greater than 0
+  - `director` must be a non-empty string
+  - `genre` must be a non-empty string
+- Album class:
+  - Constructor: must call `super(title, artist, year)` before accessing `this`
+  - `artist` must be a non-empty string
+  - `tracks` must be greater than 0
+  - `genre` must be a non-empty string
+- All `getInfo()` method overrides must call `super.getInfo()` to maintain the inheritance chain
+- The static `totalItems` counter must increment each time a MediaItem (or any subclass) is instantiated
+- Library filtering methods (`getBooks()`, `getMovies()`, `getAlbums()`) must use `instanceof` checks to correctly identify and filter by type
 
 **Example usage:**
 ```typescript
